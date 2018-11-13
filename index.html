@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="./node_modules/highlight.js/styles/xcode.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/javascript.min.js"></script>
+</head>
+<body>
+  <textarea style="font-size: 20px;" rows=10 cols=50> </textarea>
+  <pre><code style="color: #595959; font-size: 21px; font-family: 'courier new';" class="javascript">
+function lessThan10(value) {
+  return value < 10;
+}
+
+function filter(arr, f) {
+  let newArray = [];
+  for (let x of arr) {
+    if (f(x)) newArray.push(x):
+  }
+  return newArray;
+}
+
+filter([1, 2, 4, 20, 33], lessThan10); // -> [1, 2, 4]
+  </code></pre>
+  
+  <script>
+    hljs.initHighlightingOnLoad();
+    var code = document.querySelector('code');
+    var area = document.querySelector('textarea')
+    area.addEventListener('change', () => {
+      let v = area.value.trim();
+      v = v.replace(/[“”]/g, '"');
+      v = v.replace(/[‘’]/g, "'");
+      try {
+        eval(v);
+      } catch (e) {console.error(e);}
+      code.textContent = v;
+      hljs.highlightBlock(code);
+      selectElementText(code, window);
+    });
+
+    area.addEventListener('paste', () => {
+      setTimeout(function() {area.blur();}, 10);
+    });
+
+    function selectElementText(el, win) {
+        win = win || window;
+        var doc = win.document, sel, range;
+        if (win.getSelection && doc.createRange) {
+            sel = win.getSelection();
+            range = doc.createRange();
+            range.selectNodeContents(el);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        } else if (doc.body.createTextRange) {
+            range = doc.body.createTextRange();
+            range.moveToElementText(el);
+            range.select();
+        }
+    }
+  </script>
+</body>
+</html>
